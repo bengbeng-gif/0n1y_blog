@@ -92,21 +92,21 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		credit: {
 			enable: {
 				// 桌面端显示横幅图片来源文本
-				desktop: true,
+				desktop: false,
 				// 移动端显示横幅图片来源文本
-				mobile: true,
+				mobile: false,
 			},
 			text: {
 				// 桌面端要显示的来源文本
-				desktop: "Pixiv - 晚晚喵",
+				desktop: "",
 				// 移动端要显示的来源文本
-				mobile: "Pixiv - KiraraShss",
+				mobile: "",
 			},
 			url: {
 				// 桌面端原始艺术品或艺术家页面的 URL 链接
-				desktop: "https://www.pixiv.net/users/108801776",
+				desktop: "",
 				// 移动端原始艺术品或艺术家页面的 URL 链接
-				mobile: "https://www.pixiv.net/users/42715864",
+				mobile: "",
 			},
 		},
 		// 横幅导航栏配置
@@ -143,9 +143,9 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 	overlay: {
 		// 是否允许用户通过控制面板调整全屏透明模式参数
 		switchable: {
-			opacity: true,
-			blur: true,
-			cardOpacity: true,
+			opacity: false,
+			blur: false,
+			cardOpacity: false,
 		},
 		// 层级，确保壁纸在背景层
 		zIndex: -1,
