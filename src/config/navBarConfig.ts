@@ -44,7 +44,7 @@ const getDynamicNavBarConfig = (): NavBarConfig => {
 
 	// 关于及其子菜单
 	links.push({
-    name: "About",
+    name: "关于我",
     url: "/about/", // 确保这里的路径指向你的关于页面
     icon: "material-symbols:info",
 });
