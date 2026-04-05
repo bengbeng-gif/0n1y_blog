@@ -25,7 +25,7 @@ export const friendsConfig: FriendLink[] = [
 	{
 		title: "MeTの主页",
 		imgurl:
-			"https://met6.top/res/logo.png",
+			"https://www.0n1y.org/Met.png",
 		desc: "Stay Hungry. Stay Foolish. 求知若渴，大智若愚。",
 		siteurl: "https://met6.top/",
 		// tags: ["Blog"],
