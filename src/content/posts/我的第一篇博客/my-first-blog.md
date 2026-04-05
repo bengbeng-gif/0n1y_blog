@@ -1,7 +1,7 @@
 ---
 title: 建站！
 published: 2026-04-06
-description: 终于搭好了基于 Astro 的 Firefly 博客，记录一下建站的心得与感谢。
+description: 我的第一篇博客
 image: "./1.png"
 tags: ["生活"]
 category: 生活
