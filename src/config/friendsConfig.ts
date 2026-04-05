@@ -25,7 +25,7 @@ export const friendsConfig: FriendLink[] = [
 	{
 		title: "MeTの主页",
 		imgurl:
-			"https://www.0n1y.org/Met.png",
+			"https://www.0n1y.org/met.png",
 		desc: "Stay Hungry. Stay Foolish. 求知若渴，大智若愚。",
 		siteurl: "https://met6.top/",
 		// tags: ["Blog"],
@@ -34,7 +34,7 @@ export const friendsConfig: FriendLink[] = [
 	},
 	{
 		title: "补络阁",
-		imgurl: "http://8.140.202.24:30090/blog/profile/avatar.png",
+		imgurl: "https://www.0n1y.org/t.png",
 		desc: "咕咕嘎嘎，咕咕嘎嘎...",
 		siteurl: "https://blog.tuf3i.click",
 		// tags: ["Docs"],
