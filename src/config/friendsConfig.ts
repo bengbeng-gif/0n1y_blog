@@ -27,29 +27,29 @@ export const friendsConfig: FriendLink[] = [
 		imgurl:
 			"https://met6.top/res/logo.png",
 		desc: "Stay Hungry. Stay Foolish. 求知若渴，大智若愚。",
-		siteurl: "https://blog.cuteleaf.cn",
+		siteurl: "https://met6.top/",
 		// tags: ["Blog"],
 		weight: 10, // 权重，数字越大排序越靠前
 		enabled: true, // 是否启用
 	},
 	{
-		title: "Firefly Docs",
-		imgurl: "https://docs-firefly.cuteleaf.cn/logo.png",
-		desc: "Firefly主题模板文档",
-		siteurl: "https://docs-firefly.cuteleaf.cn",
+		title: "补络阁",
+		imgurl: "http://8.140.202.24:30090/blog/profile/avatar.png",
+		desc: "咕咕嘎嘎，咕咕嘎嘎...",
+		siteurl: "https://blog.tuf3i.click",
 		// tags: ["Docs"],
 		weight: 9,
 		enabled: true,
 	},
-	{
-		title: "Astro",
-		imgurl: "https://avatars.githubusercontent.com/u/44914786?v=4&s=640",
-		desc: "The web framework for content-driven websites. ⭐️ Star to support our work!",
-		siteurl: "https://github.com/withastro/astro",
-		// tags: ["Framework"],
-		weight: 8,
-		enabled: true,
-	},
+	// {
+	// 	title: "Astro",
+	// 	imgurl: "https://avatars.githubusercontent.com/u/44914786?v=4&s=640",
+	// 	desc: "The web framework for content-driven websites. ⭐️ Star to support our work!",
+	// 	siteurl: "https://github.com/withastro/astro",
+	// 	// tags: ["Framework"],
+	// 	weight: 8,
+	// 	enabled: true,
+	// },
 ];
 
 // 获取启用的友链并进行排序
