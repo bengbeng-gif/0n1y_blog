@@ -11,7 +11,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 	// left: 仅显示左侧边栏
 	// right: 仅显示右侧边栏
 	// both: 双侧边栏，1280px以上同时显示左右，769-1279px根据tabletSidebar配置显示其中一侧
-	position: "both",
+	position: "left",
 
 	// 平板端(769-1279px)显示哪侧侧边栏，仅position为both时生效
 	// left: 平板端显示左侧边栏
@@ -22,7 +22,7 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 	// 当position为left时开启此项，文章详情页将额外显示右侧边栏
 	// 当position为right时开启此项，文章详情页将额外显示左侧边栏
 	// 适用在只想用单侧栏，但在文章详情页想用对侧栏的目录等组件的场景
-	showBothSidebarsOnPostPage: true,
+	showBothSidebarsOnPostPage: false,
 
 	// 左侧边栏组件配置列表
 	// 组件的渲染顺序完全取决于它们在配置数组中出现的顺序，但top的组件会优先于sticky位置的组件渲染
@@ -110,38 +110,38 @@ export const sidebarLayoutConfig: SidebarLayoutConfig = {
 
 	// 右侧边栏组件配置列表
 	rightComponents: [
-		{
-			// 组件类型：站点统计组件
-			type: "stats",
-			// 是否启用该组件
-			enable: true,
-			// 组件位置
-			position: "top",
-			// 是否在文章详情页显示
-			showOnPostPage: true,
-		},
-		{
-			// 组件类型：日历组件
-			type: "calendar",
-			// 是否启用该组件
-			enable: true,
-			// 组件位置
-			position: "sticky",
-			// 是否在文章详情页显示
-			showOnPostPage: false,
-		},
-		{
-			// 组件类型：侧边栏目录组件（只在文章详情页显示）
-			type: "sidebarToc",
-			// 是否启用该组件
-			enable: true,
-			// 组件位置
-			position: "sticky",
-			// 是否在文章详情页显示
-			showOnPostPage: true,
-			// 是否在非文章详情页显示
-			showOnNonPostPage: false,
-		},
+		// {
+		// 	// 组件类型：站点统计组件
+		// 	type: "stats",
+		// 	// 是否启用该组件
+		// 	enable: true,
+		// 	// 组件位置
+		// 	position: "top",
+		// 	// 是否在文章详情页显示
+		// 	showOnPostPage: true,
+		// },
+		// {
+		// 	// 组件类型：日历组件
+		// 	type: "calendar",
+		// 	// 是否启用该组件
+		// 	enable: true,
+		// 	// 组件位置
+		// 	position: "sticky",
+		// 	// 是否在文章详情页显示
+		// 	showOnPostPage: false,
+		// },
+		// {
+		// 	// 组件类型：侧边栏目录组件（只在文章详情页显示）
+		// 	type: "sidebarToc",
+		// 	// 是否启用该组件
+		// 	enable: true,
+		// 	// 组件位置
+		// 	position: "sticky",
+		// 	// 是否在文章详情页显示
+		// 	showOnPostPage: true,
+		// 	// 是否在非文章详情页显示
+		// 	showOnNonPostPage: false,
+		// },
 		// {
 		// 	// 组件类型：广告栏组件 2
 		// 	type: "advertisement",
