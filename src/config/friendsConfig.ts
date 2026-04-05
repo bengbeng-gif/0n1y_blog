@@ -36,7 +36,7 @@ export const friendsConfig: FriendLink[] = [
 		title: "补络阁",
 		imgurl: "https://www.0n1y.org/t.png",
 		desc: "咕咕嘎嘎，咕咕嘎嘎...",
-		siteurl: "https://blog.tuf3i.click",
+		siteurl: "http://blog.tuf3i.click",
 		// tags: ["Docs"],
 		weight: 9,
 		enabled: true,
