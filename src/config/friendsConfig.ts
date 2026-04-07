@@ -52,7 +52,7 @@ export const friendsConfig: FriendLink[] = [
 	},
 	{
         title: "24k的小站",
-        imgurl: "https://gcore.jsdelivr.net/gh/24kcsplus/home_files@latest/avatar.png",
+        imgurl: "https://www.0n1y.org/24k.png",
         desc: "一个平凡的小站",
         siteurl: "https://24kblog.top/",
 		// tags: ["Docs"],
