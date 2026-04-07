@@ -50,6 +50,15 @@ export const friendsConfig: FriendLink[] = [
 		weight: 8,
 		enabled: true,
 	},
+	{
+        title: "24k的小站",
+        imgurl: "https://gcore.jsdelivr.net/gh/24kcsplus/home_files@latest/avatar.png",
+        desc: "一个平凡的小站",
+        siteurl: "https://24kblog.top/",
+		// tags: ["Docs"],
+		weight: 7,
+		enabled: true,
+    }
 ];
 
 // 获取启用的友链并进行排序
