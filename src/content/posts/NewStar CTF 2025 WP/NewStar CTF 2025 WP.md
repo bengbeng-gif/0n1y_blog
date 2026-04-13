@@ -1,5 +1,5 @@
 ---
-title: NewStar CTF 2025 WP Web部分
+title: NewStar+CTF+2025+WP+Web部分
 published: 2026-04-13
 description: Week1&Week2
 image: "./2.jpg"
