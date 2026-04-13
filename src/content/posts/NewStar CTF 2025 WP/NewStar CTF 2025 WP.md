@@ -1,10 +1,10 @@
 ---
 title: NewStar CTF 2025 WP Web部分
 published: 2026-04-13
-description: Week1
+description: Week1&Week2
 image: "./2.jpg"
 tags: ["CTF"]
-category: CTF
+category: CTF, 学习记录
 draft: false
 slug: NewStar CTF 2025 WP Web部分
 ---
@@ -13,9 +13,9 @@ slug: NewStar CTF 2025 WP Web部分
 
 ### 宇宙的中心是 PHP
 
-打开容器，可以发现 f12 被禁了
+打开容器，可以发现 F12 被禁了
 
-直接在 url 前加上 `view-source:` 去查看源码：
+我们可以直接在 URL 前加上 `view-source:` 去查看源码：
 
 得到源码的有效信息为：
 
@@ -41,7 +41,7 @@ if(isset($_POST['newstar2025'])){    $answer = $_POST['newstar2025'];
 
 解释下核心逻辑：
 
-使用 POST 方式传入一个名为 `newstar2025` 的参数，并把它的值赋值给 `$answer` 这个变量。若 `$answer` 的值在 **10进制** 的时候不等于 47，且使用 `$answer` 变量进制的时候等于 47，则得到 flag
+使用 **POST** 方式传入一个名为 `newstar2025` 的参数，并把它的值赋值给 `$answer` 这个变量。若 `$answer` 的值在 **10进制** 的时候不等于 47，且使用 `$answer` 变量进制的时候等于 47，则得到 flag
 
 这里重点是要知道 `intvar()` 这个函数的用法：
 
@@ -55,7 +55,7 @@ if(isset($_POST['newstar2025'])){    $answer = $_POST['newstar2025'];
 - 如果字符串以 "0" 开始，使用 8 进制(octal)；否则，
 - 将使用 10 进制 (decimal)。
 
-这样目标就很明确了，不以10进制数传参使得 $answer = 47 即可
+这样目标就很明确了，不以 **10进制** 数传参使得 `$answer = 47` 即可
 
 最终 payload：
 ```plain
@@ -81,7 +81,7 @@ And why you are here again and again?
 Trust me, hidden page is not as simple as you think.
 ```
 
-这里提到 ==robots==，可以想到 ==robots.txt 协议==
+这里提到 **robots**，可以想到 **robots.txt 协议**
 
 > 若不了解 robots.txt 协议可以点击[这里](https://www.cloudflare.com/zh-cn/learning/bots/what-is-robots-txt/)
 
@@ -94,7 +94,7 @@ Disallow: /hidden.php
 
 都 Disallow 那肯定是要看看的 2333
 
-访问 /hidden.php，得到：
+访问 `/hidden.php`，得到：
 
 ```plain
 # Hello!
@@ -111,9 +111,9 @@ Trust me, hidden page is not as simple as you think.
 
 和原网页一模一样，可见没什么用处（恼
 
-这里还有个信息 ==head==，联想到 ==http请求头==（head）
+这里还有个信息 **head**，联想到 **HTTP请求头**
 
-抓包（访问 /hidden.php 的时候），得到：
+抓包（访问 `/hidden.php` 的时候），得到：
 
 flag{3057d5d3-fb7d-e4ef-01a6-27dd3f0527f9}
 
@@ -121,11 +121,11 @@ flag{3057d5d3-fb7d-e4ef-01a6-27dd3f0527f9}
 
 打开容器，看到一个登录界面：
 
-考察的是简单的 SQL注入
+考察的是简单的 **SQL注入**
 
 构造：`admin' and 1=1-- ` 直接得到 flag：
 
-（具体解释因为比较基础可以自己去网上找找基础的 SQL 注入学习）
+（具体解释因为比较基础可以自己去网上找找基础的**SQL注入**学习）
 
 flag{56119305-d5c4-1e35-c902-bc160b877645}
 
@@ -153,13 +153,11 @@ z学姐出的题目说是（
 
 打开容器，发现有个启动键（但被 ban 了
 
-点击 f12 发现被 ban 了
+点击 F12 发现也被 ban 了
 
 （这里以 Chrome 浏览器为例）
 
-这里我们可以点击右上角的三个点->更多工具->开发者工具
-
-就可以看到源码了
+这里我们可以点击右上角的三个点->更多工具->开发者工具，就可以看到源码了
 
 但是此时的警告界面还是不断跳出来
 
@@ -183,11 +181,11 @@ z学姐出的题目说是（
 
 下一关有明显的提示为弱口令/弱密码爆破
 
-这里直接使用 burpsuite 进行爆破：
+这里直接使用 **BurpSuite** 进行爆破：
 
 爆破发现密码为 11111
 
-（注：这里我们按理来将有两个元素需要爆破：用户名和密码，但实际的 ctf 题目一般都是在密码上下文章，因此这里是使用常见的用户名 admin）
+> 注：这里我们按理来将有两个元素需要爆破：用户名和密码，但实际的 CTF 题目一般都是在密码上下文章，因此这里是使用常见的用户名 admin 过关的
 
 输入密码后进入下一关
 
@@ -240,7 +238,7 @@ if (isset($_GET['newstar'])) {
 
 解释下逻辑：
 
-此题先需要我们使用 GET 方法传入一个名为 newstar 的元素并将其赋值给 input 元素；input 不能是数组，其值必须在数字、\*和/和~和()和空白字符，且不能是纯数字或者纯空白；将 input 的值传给 test，若 test 传入的表达式有误，则会触发 try...catch 输出 “表达式错误”；在此后若 test 等于 2025，则给出 flag
+此题先需要我们使用 **GET** 方法传入一个名为 `newstar` 的元素并将其赋值给 `input` 元素；`input` 不能是数组，其值必须在数字、\*和/和~和()和空白字符，且不能是纯数字或者纯空白；将 `input` 的值传给 `test`，若 `test` 传入的表达式有误，则会触发 `try...catch` 输出 “表达式错误”；在此后若 `test` 等于 2025，则给出 flag
 
 解释下理解必要的用法：
 
@@ -254,7 +252,7 @@ exit — 输出一个消息并且退出当前脚本
 
 preg_match — 执行匹配正则表达式
 
-若对正则表达式不了解可以看看这篇文章：[菜鸟教程](https://www.runoob.com/regexp/regexp-syntax.html)
+> 若对正则表达式不了解可以看看这篇文章：[菜鸟教程](https://www.runoob.com/regexp/regexp-syntax.html)
 
 `?:`：三元运算符的缩写，用法如下：
 
@@ -266,7 +264,7 @@ $result = $a ? $a : $b;
 
 看到 **不能全是数字** 这一条件，可以想到使用乘除法等将2025算出来
 
-刚好2025是一个完全平方数，所有最终 payload：
+刚好 2025 是一个完全平方数，所有最终 payload：
 
 ```plain
 /?newstar=45*45
@@ -336,23 +334,23 @@ Content-Length: 29
 {"NextLevel":"/Level2_mato"}
 ```
 
-第二关首先提示要使用 GET 方式传入值为 mogubaozi 名为 shipin 的参数
+第二关首先提示要使用 **GET** 方式传入值为 `mogubaozi` 名为 `shipin` 的参数
 
 ```plain
 ?shipin=mogubaozi
 ```
 
-随后提示要使用 POST 方式告诉它事情（即 guding
+随后提示要使用 `POST` 方式告诉它事情（即 **guding**
 
-这里使用 hackbar 传参：
+这里使用 **hackbar** 传参：
 
 ```plain
 code=guding
 ```
 
-进入下一步，说是要使用 DELETE 方式去掉所有的 chongzi
+进入下一步，说是要使用 **DELETE** 方式去掉所有的 **chongzi**
 
-直接在 yakit 内发送数据包：
+直接在 **yakit** 内发送数据包：
 
 ```http
 DELETE /talkToMushroom?shipin=mogubaozi HTTP/1.1
@@ -392,9 +390,9 @@ chongzi
 你已经帮我把虫子弄掉了，我把骨钉给你吧，你可以回去找那个大家伙了（/Level2_END）
 ```
 
-这里提示我们改 User-Agent
+这里提示我们改 **User-Agent**
 
-可以先了解下 [User-Agent](https://developer.mozilla.org/en-US/docs/Glossary/User_agent)
+> 可以点击[此处](https://developer.mozilla.org/en-US/docs/Glossary/User_agent)去了解下 User-Agent
 
 原 UA：
 
@@ -414,7 +412,7 @@ CycloneSlash/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like G
 CycloneSlash/5.0 (Windows NT 10.0; Win64; x64) DashSlash/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36
 ```
 
-得到下一关方法 /Level4_Sly
+得到下一关方法 `/Level4_Sly`
 
 进入下一关发现终于结束，得到 flag：
 
