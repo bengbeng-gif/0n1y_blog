@@ -47,7 +47,7 @@ if(isset($_POST['newstar2025'])){    $answer = $_POST['newstar2025'];
 
 [`intvar($value, $base = 10)`](https://www.php.net/manual/zh/function.intval.php)：获取变量的整数值
 
-默认情况下 base = 10，即按照 **10进制** 获取变量的值
+默认情况下 base = 10，即按照 10进制 获取变量的值
 
 而当 base = 0 时，则通过检测 `value` 的格式来决定使用的进制：
 - 如果字符串包括了 "0x" (或 "0X") 的前缀，使用 16 进制 (hex)；否则，
@@ -55,7 +55,7 @@ if(isset($_POST['newstar2025'])){    $answer = $_POST['newstar2025'];
 - 如果字符串以 "0" 开始，使用 8 进制(octal)；否则，
 - 将使用 10 进制 (decimal)。
 
-这样目标就很明确了，不以 **10进制** 数传参使得 `$answer = 47` 即可
+这样目标就很明确了，不以 10进制 数传参使得 `$answer = 47` 即可
 
 最终 payload：
 ```plain
@@ -81,7 +81,7 @@ And why you are here again and again?
 Trust me, hidden page is not as simple as you think.
 ```
 
-这里提到 **robots**，可以想到 **robots.txt 协议**
+这里提到 robots，可以想到 **robots.txt 协议**
 
 > 若不了解 robots.txt 协议可以点击[这里](https://www.cloudflare.com/zh-cn/learning/bots/what-is-robots-txt/)
 
@@ -111,7 +111,7 @@ Trust me, hidden page is not as simple as you think.
 
 和原网页一模一样，可见没什么用处（恼
 
-这里还有个信息 **head**，联想到 **HTTP请求头**
+这里还有个信息 head，联想到 **HTTP请求头**
 
 抓包（访问 `/hidden.php` 的时候），得到：
 
@@ -181,7 +181,7 @@ z学姐出的题目说是（
 
 下一关有明显的提示为弱口令/弱密码爆破
 
-这里直接使用 **BurpSuite** 进行爆破：
+这里直接使用 BurpSuite 进行爆破：
 
 爆破发现密码为 11111
 
@@ -340,17 +340,17 @@ Content-Length: 29
 ?shipin=mogubaozi
 ```
 
-随后提示要使用 `POST` 方式告诉它事情（即 **guding**
+随后提示要使用 `POST` 方式告诉它事情（即 guding
 
-这里使用 **hackbar** 传参：
+这里使用 hackbar 传参：
 
 ```plain
 code=guding
 ```
 
-进入下一步，说是要使用 **DELETE** 方式去掉所有的 **chongzi**
+进入下一步，说是要使用 **DELETE** 方式去掉所有的 chongzi
 
-直接在 **yakit** 内发送数据包：
+直接在 Yakit 内发送数据包：
 
 ```http
 DELETE /talkToMushroom?shipin=mogubaozi HTTP/1.1
@@ -432,7 +432,7 @@ flag{4508d441-7a16-a379-c391-0905c60c0a1e}
 ping x.x.x.x
 ```
 
-可以看到服务器操作系统为 **Debian**，直接拼接 **Linux** 系统命令即可：
+可以看到服务器操作系统为 Debian，直接拼接 Linux 系统命令即可：
 
 ```plain
 127.0.0.1;ls /
@@ -522,10 +522,10 @@ echo $res . $res . $res . $res . $res;
 
 对源码进行分析：
 
-先用 **POST** 方法传入一个名为 `cipher` 的变量，再对其进行 **base64** 编码，随后调用 `atbash` 这个自定义函数，将返回值赋值给 `encoded`，再对其去掉空格，再进行一次 **rot13**，将结果执行 **eval** 函数
+先用 **POST** 方法传入一个名为 `cipher` 的变量，再对其进行 **base64** 编码，随后调用 `atbash` 这个自定义函数，将返回值赋值给 `encoded`，再对其去掉空格，再进行一次 **rot13**，将结果执行 eval 函数
 我个人觉得 `$is_upper = ctype_upper($char);` 这个语句比较重要，is_upper 并是一个布尔类型的变量，若右式为真，则被赋值为 true；否则被赋值为 false
 
-这里看了操作系统为 **Debian**，还有 **eval** 函数，因此很明显存在 **RCE**
+这里看了操作系统为 Debian，还有 eval 函数，因此很明显存在 **RCE**
 
 关键理解点：
 
