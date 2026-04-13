@@ -2,14 +2,14 @@
 title: NewStar CTF 2025 WP Web部分
 published: 2026-04-13
 description: Week1
-image: "./2.png"
+image: "./2.jpg"
 tags: ["wp"]
 category: CTF
 draft: false
-slug: 
+slug: NewStar CTF 2025 WP Web部分
 ---
 
-## Web
+## Week1 Web
 
 ### 宇宙的中心是 PHP
 
