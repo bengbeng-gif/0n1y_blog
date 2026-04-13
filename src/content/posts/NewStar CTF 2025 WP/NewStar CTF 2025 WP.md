@@ -4,7 +4,7 @@ published: 2026-04-13
 description: Week1&Week2
 image: "./2.jpg"
 tags: ["CTF"]
-category: CTF, 学习记录
+category: CTF
 draft: false
 slug: NewStar CTF 2025 WP Web部分
 ---
