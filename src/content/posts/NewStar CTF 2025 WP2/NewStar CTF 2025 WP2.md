@@ -1,12 +1,12 @@
 ---
-title: NewStar CTF 2025 WP Web部分
+title: NewStar CTF 2025 WP3 Web
 published: 2026-04-15
 description: Week3
 image: "./3.jpg"
 tags: ["CTF"]
 category: CTF
 draft: false
-slug: NewStar_CTF_2025_WP_Web部分
+slug: NewStar_CTF_2025_WP_Web2
 ---
 
 ## Week3 Web
