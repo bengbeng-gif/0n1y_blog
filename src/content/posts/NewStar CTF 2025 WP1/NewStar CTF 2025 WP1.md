@@ -1,12 +1,12 @@
 ---
-title: NewStar CTF 2025 WP Web12
+title: NewStar CTF 2025 WP12 Web
 published: 2026-04-13
 description: Week1&Week2
 image: "./2.jpg"
 tags: ["CTF"]
 category: CTF
 draft: false
-slug: NewStar_CTF_2025_WP_Web12
+slug: NewStar_CTF_2025_WP12_Web
 ---
 
 ## Week1 Web
