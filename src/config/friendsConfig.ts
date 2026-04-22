@@ -67,7 +67,7 @@ export const friendsConfig: FriendLink[] = [
 		// tags: ["Docs"],
 		weight: 6,
 		enabled: true,
-    }
+    },
 	{
         title: "Flakes",
         imgurl: "https://www.0n1y.org/color.jpg",
