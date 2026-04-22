@@ -59,6 +59,15 @@ export const friendsConfig: FriendLink[] = [
 		weight: 7,
 		enabled: true,
     }
+	{
+        title: "Flakes",
+        imgurl: "https://www.0n1y.org/color.jpg",
+        desc: "彩天坊!?",
+        siteurl: "https://flakes.ink",
+		// tags: ["Docs"],
+		weight: 6,
+		enabled: true,
+    }
 ];
 
 // 获取启用的友链并进行排序
