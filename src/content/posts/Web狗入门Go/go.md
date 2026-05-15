@@ -70,8 +70,20 @@ import (
 例如：
 
 ```go
+package main
+
+import (
+	"fmt"
+	"math"
+)
+
+func main() {
+	fmt.Println(math.Pi)
+}
 
 ```
+
+这里的 `Pi` 若是写成小写的 `pi` 则不能被成功导出
 
 ## Functions
 
