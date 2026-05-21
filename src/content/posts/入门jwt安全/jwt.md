@@ -1,5 +1,5 @@
 ---
-title: 入门jwt安全（待完善
+title: 入门jwt安全
 published: 2026-05-21
 description: 待完善
 image: "./8.jpg"
