@@ -2,7 +2,7 @@
 title: 入门jwt安全（待完善
 published: 2026-05-21
 description: 待完善
-image: "./8.png"
+image: "./8.jpg"
 tags: ["CTF"]
 category: CTF
 draft: false
