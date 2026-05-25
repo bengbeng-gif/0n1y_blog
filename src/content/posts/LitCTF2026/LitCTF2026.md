@@ -9,7 +9,7 @@ draft: false
 slug: LitCTF2026
 ---
 
-## [LitCTF2026] lit_ezsql
+## [LitCTF2026] lit_ezsql（solved
 
 打开题目还是挺懵的，一开始尝试的注入都无效
 
@@ -44,7 +44,7 @@ SELECT `id`,`name`,`col2`,`col3`,`col4` FROM `ezsql`.`users` WHERE id='1\'' LIMI
 
 （要注意的是可以将 `flag_store` 这个数据库转变为 hex 进制，即可不使用 `'flag_store'` 从而绕过转义处理）
 
-## [LitCTF2026] 华辰企业服务运营平台
+## [LitCTF2026] 华辰企业服务运营平台（solved
 
 看了源码，没什么有效信息，开扫：
 
@@ -138,7 +138,7 @@ SELECT `id`,`name`,`col2`,`col3`,`col4` FROM `ezsql`.`users` WHERE id='1\'' LIMI
 
 后面发现直接在 `/actuator/env` 里面搜 flag 就出来了
 
-## [LitCTF2026] Northbridge Document Hub
+## [LitCTF2026] Northbridge Document Hub（solved
 
 这里题目给出提示：
 
@@ -211,7 +211,7 @@ cp /opt/kkfileview/cache/parsed/q1_finance_report_2026.zip /tmp/q1_finance_repor
 
 最后读取 `/tmp/q1_finance_report_2026.zip` 拿到 flag
 
-## [LitCTF2026] lit_ezssti
+## [LitCTF2026] lit_ezssti（solved
 
 看了源码扫了下，没有什么信息
 
@@ -230,7 +230,7 @@ cp /opt/kkfileview/cache/parsed/q1_finance_report_2026.zip /tmp/q1_finance_repor
 <% import os; getattr(context, 'write')(getattr(getattr(os, 'popen')('cat /fl?g'), 'read')()) %>
 ```
 
-## [LitCTF2026] lit_reverse_my_web
+## [LitCTF2026] lit_reverse_my_web（not solved
 
 要逆向....
 
