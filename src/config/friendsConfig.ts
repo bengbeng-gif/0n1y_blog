@@ -68,6 +68,15 @@ export const friendsConfig: FriendLink[] = [
 		weight: 6,
 		enabled: true,
     },
+	{
+		"title": "Rinai 的私人花园",
+		"imgurl": "https://www.0n1y.org/bsjj.webp",
+		"desc": "博客",
+		"siteurl": "https://blog.g-rinai.cn/",
+		// tags: ["Docs"],
+		"weight": 5,
+		"enabled": true
+    },
 ];
 
 // 获取启用的友链并进行排序
