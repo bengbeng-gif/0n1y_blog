@@ -79,7 +79,7 @@ export const friendsConfig: FriendLink[] = [
     },
 	{
 		"title": "Nastl3eの小博客",
-		"imgurl": "https://www.0n1y.org/nastl3e.png",
+		"imgurl": "https://www.0n1y.org/nast.png",
 		"desc": "一臭打音游的",
 		"siteurl": "https://nastl3e.cn/",
 		// tags: ["Docs"],
