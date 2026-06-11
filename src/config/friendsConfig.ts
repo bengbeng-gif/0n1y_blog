@@ -71,10 +71,19 @@ export const friendsConfig: FriendLink[] = [
 	{
 		"title": "Rinai 的私人花园",
 		"imgurl": "https://www.0n1y.org/bsjj.webp",
-		"desc": "博客",
+		"desc": "go神",
 		"siteurl": "https://blog.g-rinai.cn/",
 		// tags: ["Docs"],
 		"weight": 5,
+		"enabled": true
+    },
+	{
+		"title": "Nastl3eの小博客",
+		"imgurl": "https://www.0n1y.org/nastl3e.png",
+		"desc": "一臭打音游的",
+		"siteurl": "https://nastl3e.cn/",
+		// tags: ["Docs"],
+		"weight": 4,
 		"enabled": true
     },
 ];
