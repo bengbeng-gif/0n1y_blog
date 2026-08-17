@@ -86,6 +86,15 @@ export const friendsConfig: FriendLink[] = [
 		"weight": 4,
 		"enabled": true
     },
+	{
+		"title": "Nastl3eの小博客",
+		"imgurl": "https://www.0n1y.org/nast.png",
+		"desc": "一臭打音游的",
+		"siteurl": "https://nastl3e.cn/",
+		// tags: ["Docs"],
+		"weight": 4,
+		"enabled": true
+    },
 ];
 
 // 获取启用的友链并进行排序
