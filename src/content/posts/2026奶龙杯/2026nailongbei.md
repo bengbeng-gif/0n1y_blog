@@ -2,7 +2,7 @@
 title: 2026 奶龙杯
 published: 2026-08-17
 description: 被暴捶了
-image: "./15.png"
+image: "./15.jpg"
 tags: ["CTF"]
 category: CTF
 draft: false
