@@ -87,12 +87,21 @@ export const friendsConfig: FriendLink[] = [
 		"enabled": true
     },
 	{
-		"title": "Nastl3eの小博客",
-		"imgurl": "https://www.0n1y.org/nast.png",
-		"desc": "一臭打音游的",
-		"siteurl": "https://nastl3e.cn/",
+		"title": "HACKED的博客",
+		"imgurl": "https://foruda.gitee.com/avatar/1782995786228285340/15786671_asus_hacked_1782995786.png",
+		"desc": "一个刚刚入门的pwner，大手子ddw",
+		"siteurl": "https://blog.ss0t-hacked.top/",
 		// tags: ["Docs"],
-		"weight": 4,
+		"weight": 3,
+		"enabled": true
+    },
+	{
+		"title": "l1ang's blog",
+		"imgurl": "https://l1an.org/img/avatar.png",
+		"desc": "记录网络安全学习，绘画和生活",
+		"siteurl": "https://l1an.org/",
+		// tags: ["Docs"],
+		"weight": 2,
 		"enabled": true
     },
 ];
