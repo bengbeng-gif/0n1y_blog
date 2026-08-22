@@ -63,7 +63,7 @@ export const friendsConfig: FriendLink[] = [
         title: "Flakes",
         imgurl: "https://www.0n1y.org/color.jpg",
         desc: "彩天坊!?",
-        siteurl: "https://flakes.ink",
+        siteurl: "https://colorsky.fun/",
 		// tags: ["Docs"],
 		weight: 6,
 		enabled: true,
